@@ -1,6 +1,6 @@
 var color = $('.selected').css("background-color");
 
-$(".controls li").click(function(){
+$(".controls").on("click","li" ,function(){
 
 	$(this).siblings().removeClass("selected");
 
