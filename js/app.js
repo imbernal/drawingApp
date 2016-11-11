@@ -1,4 +1,9 @@
 var color = $('.selected').css("background-color");
+var $canvas = $('canvas');
+var context = $canvas[0].getContext("2d");
+var lastEvent;
+var mouseDown = false;
+
 
 $(".controls").on("click","li" ,function(){
 
@@ -21,8 +26,6 @@ function changeColor(){
 	var b = $('#blue').val();
 
 	$('#newColor').css('background-color', "rgb(" + r +"," + g + ","+ b+ ")");
-
-
 }
 
 $("input[type=range]").change(changeColor); 
@@ -35,4 +38,27 @@ $('#addNewColor').click(function(){
 
 	$('.controls ul').append($newColor);
 
+	$newColor.click();
+
+});
+
+$canvas.mousedown(function(e) {
+	lastEvent = e;
+	mouseDown = true;
+
+}).mousemove(function(event) {
+
+	if (mouseDown){
+		context.beginPath();
+ 		context.moveTo(lastEvent.offsetX,lastEvent.offsetY);
+ 		context.lineTo(event.offsetX,event.offsetY);
+	 	context.stroke();
+	 	context.strokeStyle = color;
+ 		lastEvent = event;	
+	}
+	
+}).mouseup(function(event) {
+	mouseDown = false;
+}).mouseleave(function() {
+	$canvas.mouseup();
 });
